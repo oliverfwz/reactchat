@@ -4,12 +4,18 @@ import AddMessageForm from './AddMessageForm'
 
 class ChatBox extends React.Component {
   render() {
+    const { messages, addMessage } = this.props
+    
     return (
       <div className="ChatBox">
         <div className="box-message">
-          <Message />
+          {
+            Object
+              .keys(messages)
+              .map((key) => <Message key={key} details={messages[key]} />)
+          }
         </div>
-        <AddMessageForm addMessage={this.props.addMessage} />
+        <AddMessageForm addMessage={addMessage} />
       </div>
     )
   }

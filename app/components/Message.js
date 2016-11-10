@@ -2,9 +2,11 @@ import React from 'react'
 
 class Message extends React.Component {
   render() {
+    const { details } = this.props;
+
     return (
       <div className="Message">
-        This is a message
+        {details.content}
       </div>
     )
   }

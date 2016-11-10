@@ -26,7 +26,7 @@ class App extends Component {
     return (
       <div className="App">
         <Header />
-        <ChatBox addMessage={this.addMessage} />
+        <ChatBox addMessage={this.addMessage} messages={this.state.messages} />
       </div>
     );
   }
