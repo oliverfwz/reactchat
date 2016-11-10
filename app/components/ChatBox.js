@@ -3,14 +3,20 @@ import Message from './Message'
 import AddMessageForm from './AddMessageForm'
 import firebase from 'firebase/app'
 import { auth } from '../db/firebase'
+import messageStore from '../stores/Message'
+import { observer } from 'mobx-react'
 
-class ChatBox extends React.Component {
+@observer class ChatBox extends React.Component {
   constructor() {
     super();
     this.logout = this.logout.bind(this);
     this.state = {
       uid: null
     }
+  }
+
+  componentWillMount() {
+    this.store = messageStore.getStore()
   }
 
   componentDidMount() {
@@ -56,8 +62,7 @@ class ChatBox extends React.Component {
   }
 
   render() {
-    const logout = <button onClick={this.logout}>Log Out!</button>;
-    const { messages, addMessage } = this.props
+    const logout = <button onClick={this.logout}>Log Out!</button>; 
 
     if(!this.state.uid) {
       return <div>{this.renderLogin()}</div>
@@ -68,11 +73,11 @@ class ChatBox extends React.Component {
         <div className="box-message">
           {
             Object
-              .keys(messages)
-              .map((key) => <Message key={key} details={messages[key]} />)
+              .keys(this.store.messages)
+              .map((key) => <Message key={key} details={this.store.messages[key]} />)
           }
         </div>
-        <AddMessageForm addMessage={addMessage} />
+        <AddMessageForm addMessage={this.store.addMessage} uid={this.state.uid} />
         {logout}
       </div>
     )

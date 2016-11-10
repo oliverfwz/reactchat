@@ -2,12 +2,14 @@ import React from 'react';
 
 class AddMessageForm extends React.Component {
   createMessage(event) {
+    const { uid } = this.props
     event.preventDefault();
 
     const message = {
-      content: this.content.value
+      content: this.content.value,
+      uid: uid
     }
-    
+
     this.props.addMessage(message);
     this.messageForm.reset();
   }
