@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import '../assets/css/App.css';
 import Header from '../components/Header'
 import ChatBox from '../components/ChatBox'
+import { database } from '../db/firebase'
 
 class App extends Component {
   constructor() {
@@ -14,12 +15,24 @@ class App extends Component {
     };
   }
 
+  componentWillMount() {
+    database.ref(`chatapp/messages`).on('value', (snapshot) => {
+      if (snapshot.val() !== null) {
+        this.setState({ messages: snapshot.val() });
+      }
+    })
+  }
+
   addMessage(message) {
     const messages = {...this.state.messages};
     const timestamp = Date.now();
+    const messageId = `message-${timestamp}`
 
-    messages[`message-${timestamp}`] = message
+    messages[`${messageId}`] = message
     this.setState({ messages });
+    database.ref(`chatapp/messages/${messageId}`).set(
+      message
+    )
   }
 
   render() {

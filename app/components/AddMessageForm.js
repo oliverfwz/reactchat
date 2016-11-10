@@ -3,10 +3,11 @@ import React from 'react';
 class AddMessageForm extends React.Component {
   createMessage(event) {
     event.preventDefault();
-    console.log('GOnna make some message! 🎣');
+
     const message = {
       content: this.content.value
     }
+    
     this.props.addMessage(message);
     this.messageForm.reset();
   }
